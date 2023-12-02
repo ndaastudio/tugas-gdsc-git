@@ -14,6 +14,10 @@ const io = socketIo(server, {
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
 
+  socket.on("typing", ([isTyping, userId]) => {
+    console.log("message: " + isTyping);
+    io.emit("typing", [isTyping, userId]);
+    
   socket.on("confess", (text) => {
     console.log("message: " + text);
     io.emit("confess", text);
