@@ -13,6 +13,8 @@ const io = socketIo(server, {
 
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
+  const totalViews = io.engine.clientsCount;
+  io.emit("totalViews", totalViews);
 
   socket.on("confess", (text) => {
     console.log("message: " + text);
@@ -21,6 +23,8 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("User disconnected");
+    const totalViews = io.engine.clientsCount;
+    io.emit("totalViews", totalViews);
   });
 });
 
