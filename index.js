@@ -9,6 +9,11 @@ const io = socketIo(server);
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
 
+  socket.on("typing", ([isTyping, userId]) => {
+    console.log("message: " + isTyping);
+    io.emit("typing", [isTyping, userId]);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
