@@ -4,7 +4,12 @@ const socketIo = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://127.0.0.1:5173",
+    methods: ["GET", "POST"],
+  },
+});
 
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
@@ -12,6 +17,10 @@ io.on("connection", (socket) => {
   socket.on("typing", ([isTyping, userId]) => {
     console.log("message: " + isTyping);
     io.emit("typing", [isTyping, userId]);
+    
+  socket.on("confess", (text) => {
+    console.log("message: " + text);
+    io.emit("confess", text);
   });
 
   socket.on("disconnect", () => {
